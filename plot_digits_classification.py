@@ -105,13 +105,8 @@ plt.show()
 # `y_pred`, one can still build a :func:`~sklearn.metrics.classification_report`
 # as follows:
 
-# Convert confusion matrix back to classification format
-y_true, y_pred = confusion_matrix_to_classification_report(disp.confusion_matrix)
-
-print(
-    "Classification report rebuilt from confusion matrix:\n"
-    f"{metrics.classification_report(y_true, y_pred)}\n"
-)
+# The ground truth and predicted lists
+y_true = []
 y_pred = []
 cm = disp.confusion_matrix
 
@@ -119,9 +114,14 @@ cm = disp.confusion_matrix
 # and predictions to the lists
 for gt in range(len(cm)):
     for pred in range(len(cm)):
-        y_true += [gt] * cm[gt][pred]
-        y_pred += [pred] * cm[gt][pred]
+        count = cm[gt][pred]
+        y_true.extend([gt] * count)
+        y_pred.extend([pred] * count)
 
+print(
+    "Classification report rebuilt from confusion matrix:\n"
+    f"{metrics.classification_report(y_true, y_pred)}\n"
+)
 print(
     "Classification report rebuilt from confusion matrix:\n"
     f"{metrics.classification_report(y_true, y_pred)}\n"

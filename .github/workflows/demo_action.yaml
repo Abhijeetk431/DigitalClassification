@@ -1,0 +1,30 @@
+name: Digit Classification Demo
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run-classification:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install matplotlib scikit-learn numpy
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
+    - name: Run digit classification
+      run: |
+        export MPLBACKEND=Agg
+        python plot_digits_classification.py
